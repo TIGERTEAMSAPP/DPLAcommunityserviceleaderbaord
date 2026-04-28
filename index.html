@@ -42,6 +42,17 @@
       background-position: 0 0, 45px 65px, 80px 120px;
       opacity: 0.28;
       z-index: -3;
+      animation: driftStars 55s linear infinite;
+    }
+
+    .stars::before {
+      opacity: 0.45;
+      animation: driftStarsSlow 85s linear infinite;
+    }
+
+    .stars::after {
+      opacity: 0.35;
+      animation: twinkleStars 4s ease-in-out infinite alternate;
     }
 
     .moon {
@@ -110,7 +121,8 @@
       box-shadow: 0 0 15px rgba(255, 228, 156, 0.8);
       transform: rotate(-25deg);
       z-index: -1;
-      opacity: 0.8;
+      opacity: 0;
+      animation: shootingStar 6s linear infinite;
     }
 
     .shooting-star::after {
@@ -128,20 +140,21 @@
     .shooting-star.one {
       top: 150px;
       right: 120px;
+      animation-delay: 0s;
     }
 
     .shooting-star.two {
       top: 420px;
       left: 80px;
       width: 90px;
-      opacity: 0.55;
+      animation-delay: 2.3s;
     }
 
     .shooting-star.three {
       top: 620px;
       right: 260px;
       width: 110px;
-      opacity: 0.45;
+      animation-delay: 4.1s;
     }
 
     .asteroid {
@@ -152,6 +165,7 @@
       box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
       z-index: -1;
       opacity: 0.6;
+      animation: floatAsteroid 7s ease-in-out infinite alternate;
     }
 
     .asteroid::before {
@@ -173,7 +187,7 @@
       height: 48px;
       top: 260px;
       right: 90px;
-      transform: rotate(20deg);
+      animation-delay: 0s;
     }
 
     .asteroid-two {
@@ -181,7 +195,7 @@
       height: 34px;
       bottom: 180px;
       left: 100px;
-      transform: rotate(-15deg);
+      animation-delay: 1.5s;
     }
 
     .asteroid-three {
@@ -189,7 +203,7 @@
       height: 28px;
       top: 540px;
       right: 45%;
-      transform: rotate(35deg);
+      animation-delay: 3s;
     }
 
     .gold-orb {
@@ -199,6 +213,7 @@
       box-shadow: 0 0 25px rgba(255, 215, 106, 0.75);
       z-index: -1;
       opacity: 0.6;
+      animation: pulseOrb 3s ease-in-out infinite alternate;
     }
 
     .orb-one {
@@ -213,6 +228,7 @@
       height: 18px;
       top: 510px;
       right: 18%;
+      animation-delay: 1s;
     }
 
     .orb-three {
@@ -220,11 +236,14 @@
       height: 9px;
       bottom: 150px;
       left: 45%;
+      animation-delay: 2s;
     }
 
     .container {
       max-width: 900px;
       margin: auto;
+      position: relative;
+      z-index: 2;
     }
 
     header {
@@ -380,6 +399,79 @@
       color: #a99b73;
       font-size: 0.9rem;
       margin-top: 16px;
+    }
+
+    @keyframes driftStars {
+      from {
+        background-position: 0 0, 45px 65px, 80px 120px;
+      }
+
+      to {
+        background-position: 220px 180px, 265px 245px, 300px 300px;
+      }
+    }
+
+    @keyframes driftStarsSlow {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(80px);
+      }
+    }
+
+    @keyframes twinkleStars {
+      from {
+        opacity: 0.18;
+      }
+
+      to {
+        opacity: 0.42;
+      }
+    }
+
+    @keyframes shootingStar {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(-25deg);
+      }
+
+      8% {
+        opacity: 1;
+      }
+
+      35% {
+        opacity: 0;
+        transform: translate(-350px, 160px) rotate(-25deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-350px, 160px) rotate(-25deg);
+      }
+    }
+
+    @keyframes floatAsteroid {
+      from {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      to {
+        transform: translateY(-22px) rotate(12deg);
+      }
+    }
+
+    @keyframes pulseOrb {
+      from {
+        opacity: 0.35;
+        transform: scale(1);
+      }
+
+      to {
+        opacity: 0.85;
+        transform: scale(1.25);
+      }
     }
 
     @media (max-width: 600px) {
