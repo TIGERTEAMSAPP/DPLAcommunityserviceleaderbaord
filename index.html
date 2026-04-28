@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Service Leaderboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #1b2a6b, #070716 55%, #000000);
+      color: white;
+      overflow-x: hidden;
+      padding: 30px 15px;
+    }
+
+    .stars, .stars::before, .stars::after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background-image:
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(white 1px, transparent 1px);
+      background-size: 80px 80px, 120px 120px;
+      background-position: 0 0, 40px 60px;
+      opacity: 0.35;
+      z-index: -2;
+    }
+
+    .planet {
+      position: fixed;
+      right: -80px;
+      bottom: -80px;
+      width: 260px;
+      height: 260px;
+      background: linear-gradient(135deg, #7b61ff, #20d6ff);
+      border-radius: 50%;
+      box-shadow: 0 0 70px rgba(32, 214, 255, 0.5);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px #64eaff;
+    }
+
+    .subtitle {
+      color: #c9d7ff;
+      font-size: 1.1rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .stat-card h2 {
+      font-size: 2rem;
+      color: #64eaff;
+    }
+
+    .stat-card p {
+      color: #d7ddff;
+      margin-top: 5px;
+    }
+
+    .leaderboard {
+      background: rgba(9, 12, 35, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    .leaderboard-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .leaderboard-title h2 {
+      color: #ffffff;
+    }
+
+    .refresh-button {
+      background: linear-gradient(135deg, #64eaff, #8f7cff);
+      color: #050514;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 70px 1fr 120px;
+      align-items: center;
+      gap: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .rank {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #ffd166;
+    }
+
+    .name {
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+
+    .hours {
+      text-align: right;
+      font-weight: bold;
+      color: #64eaff;
+    }
+
+    .first {
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.22), rgba(255, 255, 255, 0.08));
+    }
+
+    .second {
+      background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(255, 255, 255, 0.08));
+    }
+
+    .third {
+      background: linear-gradient(135deg, rgba(205, 127, 50, 0.22), rgba(255, 255, 255, 0.08));
+    }
+
+    .loading, .error {
+      text-align: center;
+      padding: 25px;
+      color: #d7ddff;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #9ca8d8;
+      font-size: 0.9rem;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        grid-template-columns: 50px 1fr 90px;
+        padding: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="planet"></div>
+
+  <div class="container">
+    <header>
+      <h1>🚀 Community Service Leaderboard</h1>
+      <p class="subtitle">Tracking hours across the galaxy, one service project at a time.</p>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card">
+        <h2 id="totalHours">0</h2>
+        <p>Total Service Hours</p>
+      </div>
+      <div class="stat-card">
+        <h2 id="totalStudents">0</h2>
+        <p>Students Participating</p>
+      </div>
+      <div class="stat-card">
+        <h2 id="topVolunteer">—</h2>
+        <p>Top Volunteer</p>
+      </div>
+    </section>
+
+    <main class="leaderboard">
+      <div class="leaderboard-title">
+        <h2>🌌 Galactic Rankings</h2>
+        <button class="refresh-button" onclick="loadLeaderboard()">Refresh</button>
+      </div>
+      <div id="leaderboardList" class="loading">Loading leaderboard...</div>
+    </main>
+
+    <p class="footer-note">Update the Google Sheet and refresh this page to update the leaderboard.</p>
+  </div>
+
+  <script>
+    // STEP 1: Publish your Google Sheet to the web as a CSV.
+    // STEP 2: Replace this link with your published CSV link.
+    const GOOGLE_SHEET_CSV_URL = "PASTE_YOUR_PUBLISHED_GOOGLE_SHEET_CSV_LINK_HERE";
+
+    async function loadLeaderboard() {
+      const leaderboardList = document.getElementById("leaderboardList");
+      leaderboardList.className = "loading";
+      leaderboardList.innerHTML = "Loading leaderboard...";
+
+      try {
+        if (GOOGLE_SHEET_CSV_URL.includes("PASTE_YOUR")) {
+          throw new Error("Please add your published Google Sheet CSV link in the code.");
+        }
+
+        const response = await fetch(GOOGLE_SHEET_CSV_URL);
+        const csvText = await response.text();
+        const data = parseCSV(csvText);
+
+        // Your Google Sheet should have columns named: Name, Hours
+        const leaderboard = data
+          .map(row => ({
+            name: row.Name || row.name || "Unnamed",
+            hours: Number(row.Hours || row.hours || 0)
+          }))
+          .filter(person => person.name && !isNaN(person.hours))
+          .sort((a, b) => b.hours - a.hours);
+
+        renderLeaderboard(leaderboard);
+      } catch (error) {
+        leaderboardList.className = "error";
+        leaderboardList.innerHTML = `⚠️ ${error.message}`;
+      }
+    }
+
+    function parseCSV(csv) {
+      const lines = csv.trim().split("\n");
+      const headers = lines[0].split(",").map(header => header.trim());
+
+      return lines.slice(1).map(line => {
+        const values = line.split(",").map(value => value.trim());
+        const row = {};
+        headers.forEach((header, index) => {
+          row[header] = values[index];
+        });
+        return row;
+      });
+    }
+
+    function renderLeaderboard(leaderboard) {
+      const leaderboardList = document.getElementById("leaderboardList");
+      const totalHours = leaderboard.reduce((sum, person) => sum + person.hours, 0);
+
+      document.getElementById("totalHours").textContent = totalHours;
+      document.getElementById("totalStudents").textContent = leaderboard.length;
+      document.getElementById("topVolunteer").textContent = leaderboard[0]?.name || "—";
+
+      if (leaderboard.length === 0) {
+        leaderboardList.className = "error";
+        leaderboardList.innerHTML = "No leaderboard data found.";
+        return;
+      }
+
+      leaderboardList.className = "";
+      leaderboardList.innerHTML = leaderboard.map((person, index) => {
+        let medal = "";
+        let specialClass = "";
+
+        if (index === 0) {
+          medal = "🥇";
+          specialClass = "first";
+        } else if (index === 1) {
+          medal = "🥈";
+          specialClass = "second";
+        } else if (index === 2) {
+          medal = "🥉";
+          specialClass = "third";
+        } else {
+          medal = `#${index + 1}`;
+        }
+
+        return `
+          <div class="row ${specialClass}">
+            <div class="rank">${medal}</div>
+            <div class="name">${person.name}</div>
+            <div class="hours">${person.hours} hrs</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    loadLeaderboard();
+  </script>
+</body>
+</html>
