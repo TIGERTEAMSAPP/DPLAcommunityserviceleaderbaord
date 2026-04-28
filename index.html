@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Community Service Leaderboard</title>
+  <title>DPLA Community Service Leaderboard</title>
   <style>
     * {
       box-sizing: border-box;
@@ -14,8 +14,11 @@
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at top, #1b2a6b, #070716 55%, #000000);
-      color: white;
+      background:
+        radial-gradient(circle at top, rgba(255, 215, 120, 0.13), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(180, 130, 35, 0.16), transparent 30%),
+        linear-gradient(135deg, #252525 0%, #171717 50%, #0d0d0d 100%);
+      color: #fff8e6;
       overflow-x: hidden;
       padding: 30px 15px;
     }
@@ -28,24 +31,38 @@
       height: 100%;
       content: "";
       background-image:
-        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(#fff4c2 1px, transparent 1px),
+        radial-gradient(#d4af37 1px, transparent 1px),
         radial-gradient(white 1px, transparent 1px);
-      background-size: 80px 80px, 120px 120px;
-      background-position: 0 0, 40px 60px;
-      opacity: 0.35;
+      background-size: 90px 90px, 140px 140px, 220px 220px;
+      background-position: 0 0, 45px 65px, 80px 120px;
+      opacity: 0.28;
       z-index: -2;
     }
 
     .planet {
       position: fixed;
-      right: -80px;
-      bottom: -80px;
-      width: 260px;
-      height: 260px;
-      background: linear-gradient(135deg, #7b61ff, #20d6ff);
+      right: -85px;
+      bottom: -85px;
+      width: 280px;
+      height: 280px;
+      background:
+        radial-gradient(circle at 35% 30%, #ffe9a6, #d4af37 35%, #6b4d14 78%);
       border-radius: 50%;
-      box-shadow: 0 0 70px rgba(32, 214, 255, 0.5);
+      box-shadow: 0 0 80px rgba(212, 175, 55, 0.35);
       z-index: -1;
+    }
+
+    .planet::before {
+      content: "";
+      position: absolute;
+      top: 115px;
+      left: -40px;
+      width: 360px;
+      height: 55px;
+      border: 3px solid rgba(255, 221, 130, 0.55);
+      border-radius: 50%;
+      transform: rotate(-18deg);
     }
 
     .container {
@@ -61,12 +78,14 @@
     h1 {
       font-size: clamp(2rem, 5vw, 4rem);
       margin-bottom: 10px;
-      text-shadow: 0 0 20px #64eaff;
+      color: #ffe49c;
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.55);
     }
 
     .subtitle {
-      color: #c9d7ff;
+      color: #d8c895;
       font-size: 1.1rem;
+      letter-spacing: 1.5px;
     }
 
     .stats {
@@ -77,31 +96,31 @@
     }
 
     .stat-card {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(38, 38, 38, 0.82);
+      border: 1px solid rgba(212, 175, 55, 0.35);
       backdrop-filter: blur(10px);
       border-radius: 18px;
       padding: 20px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
 
     .stat-card h2 {
       font-size: 2rem;
-      color: #64eaff;
+      color: #ffd76a;
     }
 
     .stat-card p {
-      color: #d7ddff;
+      color: #d8c895;
       margin-top: 5px;
     }
 
     .leaderboard {
-      background: rgba(9, 12, 35, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(25, 25, 25, 0.88);
+      border: 1px solid rgba(212, 175, 55, 0.38);
       border-radius: 24px;
       padding: 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
     }
 
     .leaderboard-title {
@@ -114,17 +133,24 @@
     }
 
     .leaderboard-title h2 {
-      color: #ffffff;
+      color: #ffe49c;
     }
 
     .refresh-button {
-      background: linear-gradient(135deg, #64eaff, #8f7cff);
-      color: #050514;
+      background: linear-gradient(135deg, #ffe49c, #d4af37);
+      color: #181818;
       border: none;
       padding: 10px 16px;
       border-radius: 999px;
       font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .refresh-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
     }
 
     .row {
@@ -134,49 +160,54 @@
       gap: 10px;
       padding: 16px;
       margin-bottom: 12px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.055);
       border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
     }
 
     .rank {
       font-size: 1.3rem;
       font-weight: bold;
-      color: #ffd166;
+      color: #ffd76a;
     }
 
     .name {
       font-weight: bold;
       font-size: 1.05rem;
+      color: #fff8e6;
     }
 
     .hours {
       text-align: right;
       font-weight: bold;
-      color: #64eaff;
+      color: #ffe49c;
     }
 
     .first {
-      background: linear-gradient(135deg, rgba(255, 209, 102, 0.22), rgba(255, 255, 255, 0.08));
+      background: linear-gradient(135deg, rgba(255, 215, 106, 0.25), rgba(255, 255, 255, 0.06));
+      border-color: rgba(255, 215, 106, 0.55);
     }
 
     .second {
-      background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(255, 255, 255, 0.08));
+      background: linear-gradient(135deg, rgba(210, 210, 210, 0.18), rgba(255, 255, 255, 0.055));
+      border-color: rgba(210, 210, 210, 0.35);
     }
 
     .third {
-      background: linear-gradient(135deg, rgba(205, 127, 50, 0.22), rgba(255, 255, 255, 0.08));
+      background: linear-gradient(135deg, rgba(181, 111, 45, 0.22), rgba(255, 255, 255, 0.055));
+      border-color: rgba(181, 111, 45, 0.42);
     }
 
     .loading, .error {
       text-align: center;
       padding: 25px;
-      color: #d7ddff;
+      color: #d8c895;
     }
 
     .footer-note {
       text-align: center;
-      color: #9ca8d8;
+      color: #a99b73;
       font-size: 0.9rem;
       margin-top: 16px;
     }
@@ -189,6 +220,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="stars"></div>
   <div class="planet"></div>
@@ -196,7 +228,7 @@
   <div class="container">
     <header>
       <h1>🚀 DPLA Community Service Leaderboard 🚀</h1>
-      <p class="subtitle">DEDICATED PURPOSE LEADERSHIP ACADEMY.</p>
+      <p class="subtitle">DEDICATED PURPOSE LEADERSHIP ACADEMY</p>
     </header>
 
     <section class="stats">
@@ -204,10 +236,12 @@
         <h2 id="totalHours">0</h2>
         <p>Total Service Hours</p>
       </div>
+
       <div class="stat-card">
         <h2 id="totalStudents">0</h2>
         <p>Students Participating</p>
       </div>
+
       <div class="stat-card">
         <h2 id="topVolunteer">—</h2>
         <p>Most Dedicated</p>
@@ -216,18 +250,19 @@
 
     <main class="leaderboard">
       <div class="leaderboard-title">
-        <h2> Top Rankings</h2>
+        <h2>🌟 Top Rankings</h2>
         <button class="refresh-button" onclick="loadLeaderboard()">Refresh</button>
       </div>
+
       <div id="leaderboardList" class="loading">Loading leaderboard...</div>
     </main>
 
-    <p class="footer-note">Update the Google Sheet and refresh this page to update the leaderboard.</p>
+    <p class="footer-note">
+      Update the Google Sheet and refresh this page to update the leaderboard.
+    </p>
   </div>
 
   <script>
-    // STEP 1: Publish your Google Sheet to the web as a CSV.
-    // STEP 2: Replace this link with your published CSV link.
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPVumJkc_oT4l73Z9LfUMdlIaN_TjfhILZLVGDvi1SlyfdzbKGnLVP9dWeyoBcfKvkrxye4aLcZw2G/pub?output=csv";
 
     async function loadLeaderboard() {
@@ -236,15 +271,10 @@
       leaderboardList.innerHTML = "Loading leaderboard...";
 
       try {
-        if (GOOGLE_SHEET_CSV_URL.includes("PASTE_YOUR")) {
-          throw new Error("Please add your published Google Sheet CSV link in the code.");
-        }
-
         const response = await fetch(GOOGLE_SHEET_CSV_URL);
         const csvText = await response.text();
         const data = parseCSV(csvText);
 
-        // Your Google Sheet should have columns named: Name, Hours
         const leaderboard = data
           .map(row => ({
             name: row.Name || row.name || "Unnamed",
@@ -267,9 +297,11 @@
       return lines.slice(1).map(line => {
         const values = line.split(",").map(value => value.trim());
         const row = {};
+
         headers.forEach((header, index) => {
           row[header] = values[index];
         });
+
         return row;
       });
     }
@@ -289,6 +321,7 @@
       }
 
       leaderboardList.className = "";
+
       leaderboardList.innerHTML = leaderboard.map((person, index) => {
         let medal = "";
         let specialClass = "";
