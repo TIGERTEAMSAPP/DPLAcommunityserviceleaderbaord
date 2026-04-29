@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>DPLA Community Service Leaderboard</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -11,6 +13,7 @@
       padding: 0;
       font-family: Arial, sans-serif;
     }
+
     body {
       min-height: 100vh;
       background:
@@ -21,6 +24,7 @@
       overflow-x: hidden;
       padding: 30px 15px;
     }
+
     .stars,
     .stars::before,
     .stars::after {
@@ -40,14 +44,17 @@
       z-index: -3;
       animation: driftStars 70s ease-in-out infinite alternate;
     }
+
     .stars::before {
       opacity: 0.45;
       animation: driftStarsSlow 85s ease-in-out infinite alternate;
     }
+
     .stars::after {
       opacity: 0.35;
       animation: twinkleStars 4s ease-in-out infinite alternate;
     }
+
     .moon {
       position: fixed;
       top: 80px;
@@ -61,6 +68,7 @@
       opacity: 0.85;
       z-index: -1;
     }
+
     .moon::before {
       content: "";
       position: absolute;
@@ -74,6 +82,7 @@
         28px 18px 0 rgba(40, 40, 40, 0.18),
         8px 42px 0 rgba(40, 40, 40, 0.14);
     }
+
     .planet {
       position: fixed;
       right: -85px;
@@ -86,6 +95,7 @@
       box-shadow: 0 0 80px rgba(212, 175, 55, 0.35);
       z-index: -1;
     }
+
     .planet::before {
       content: "";
       position: absolute;
@@ -97,6 +107,7 @@
       border-radius: 50%;
       transform: rotate(-18deg);
     }
+
     .shooting-star {
       position: fixed;
       width: 130px;
@@ -113,6 +124,7 @@
       opacity: 0;
       animation: shootingStar 6s linear infinite;
     }
+
     .shooting-star::after {
       content: "";
       position: absolute;
@@ -124,23 +136,27 @@
       border-radius: 50%;
       box-shadow: 0 0 15px #ffe49c;
     }
+
     .shooting-star.one {
       top: 150px;
       left: 120px;
       animation-delay: 0s;
     }
+
     .shooting-star.two {
       top: 420px;
       left: 80px;
       width: 90px;
       animation-delay: 2.3s;
     }
+
     .shooting-star.three {
       top: 620px;
       left: 260px;
       width: 110px;
       animation-delay: 4.1s;
     }
+
     .asteroid {
       position: fixed;
       background: linear-gradient(135deg, #8c7a54, #3b3528);
@@ -151,6 +167,7 @@
       opacity: 0.6;
       animation: floatAsteroid 7s ease-in-out infinite alternate;
     }
+
     .asteroid::before {
       content: "";
       position: absolute;
@@ -164,6 +181,7 @@
         28px 18px 0 rgba(0, 0, 0, 0.13),
         12px 45px 0 rgba(0, 0, 0, 0.1);
     }
+
     .asteroid-one {
       width: 65px;
       height: 48px;
@@ -171,6 +189,7 @@
       right: 90px;
       animation-delay: 0s;
     }
+
     .asteroid-two {
       width: 42px;
       height: 34px;
@@ -178,6 +197,7 @@
       left: 100px;
       animation-delay: 1.5s;
     }
+
     .asteroid-three {
       width: 35px;
       height: 28px;
@@ -185,6 +205,7 @@
       right: 45%;
       animation-delay: 3s;
     }
+
     .gold-orb {
       position: fixed;
       border-radius: 50%;
@@ -194,12 +215,14 @@
       opacity: 0.6;
       animation: pulseOrb 3s ease-in-out infinite alternate;
     }
+
     .orb-one {
       width: 12px;
       height: 12px;
       top: 210px;
       left: 32%;
     }
+
     .orb-two {
       width: 18px;
       height: 18px;
@@ -207,6 +230,7 @@
       right: 18%;
       animation-delay: 1s;
     }
+
     .orb-three {
       width: 9px;
       height: 9px;
@@ -214,33 +238,47 @@
       left: 45%;
       animation-delay: 2s;
     }
+
     .container {
       max-width: 900px;
       margin: auto;
       position: relative;
       z-index: 2;
     }
+
     header {
       text-align: center;
       margin-bottom: 30px;
     }
+
     h1 {
       font-size: clamp(2rem, 5vw, 4rem);
       margin-bottom: 10px;
       color: #ffe49c;
       text-shadow: 0 0 20px rgba(212, 175, 55, 0.55);
     }
+
     .subtitle {
       color: #d8c895;
       font-size: 1.1rem;
       letter-spacing: 1.5px;
     }
+
+    .dpla-logo {
+      display: block;
+      width: 240px;
+      max-width: 75%;
+      margin: 24px auto 0;
+      filter: drop-shadow(0 0 18px rgba(212, 175, 55, 0.4));
+    }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 15px;
       margin-bottom: 25px;
     }
+
     .stat-card {
       background: rgba(38, 38, 38, 0.82);
       border: 1px solid rgba(212, 175, 55, 0.35);
@@ -250,14 +288,17 @@
       text-align: center;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
+
     .stat-card h2 {
       font-size: 2rem;
       color: #ffd76a;
     }
+
     .stat-card p {
       color: #d8c895;
       margin-top: 5px;
     }
+
     .leaderboard {
       background: rgba(25, 25, 25, 0.88);
       border: 1px solid rgba(212, 175, 55, 0.38);
@@ -265,6 +306,7 @@
       padding: 20px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
     }
+
     .leaderboard-title {
       display: flex;
       justify-content: space-between;
@@ -273,9 +315,11 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .leaderboard-title h2 {
       color: #ffe49c;
     }
+
     .refresh-button {
       background: linear-gradient(135deg, #ffe49c, #d4af37);
       color: #181818;
@@ -287,10 +331,12 @@
       box-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+
     .refresh-button:hover {
       transform: translateY(-2px);
       box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
     }
+
     .row {
       display: grid;
       grid-template-columns: 70px 1fr 120px;
@@ -303,21 +349,25 @@
       border: 1px solid rgba(212, 175, 55, 0.18);
       box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
     }
+
     .rank {
       font-size: 1.3rem;
       font-weight: bold;
       color: #ffd76a;
     }
+
     .name {
       font-weight: bold;
       font-size: 1.05rem;
       color: #fff8e6;
     }
+
     .hours {
       text-align: right;
       font-weight: bold;
       color: #ffe49c;
     }
+
     .first {
       background: linear-gradient(
         135deg,
@@ -326,6 +376,7 @@
       );
       border-color: rgba(255, 215, 106, 0.55);
     }
+
     .second {
       background: linear-gradient(
         135deg,
@@ -334,6 +385,7 @@
       );
       border-color: rgba(210, 210, 210, 0.35);
     }
+
     .third {
       background: linear-gradient(
         135deg,
@@ -342,114 +394,145 @@
       );
       border-color: rgba(181, 111, 45, 0.42);
     }
+
     .loading,
     .error {
       text-align: center;
       padding: 25px;
       color: #d8c895;
     }
+
     .footer-note {
       text-align: center;
       color: #a99b73;
       font-size: 0.9rem;
       margin-top: 16px;
     }
+
     @keyframes driftStars {
       0% {
         transform: translate(0, 0);
       }
+
       25% {
         transform: translate(-30px, 20px);
       }
+
       50% {
         transform: translate(20px, -25px);
       }
+
       75% {
         transform: translate(-20px, -10px);
       }
+
       100% {
         transform: translate(30px, 25px);
       }
     }
+
     @keyframes driftStarsSlow {
       0% {
         transform: translate(0, 0);
       }
+
       50% {
         transform: translate(-45px, 35px);
       }
+
       100% {
         transform: translate(35px, -20px);
       }
     }
+
     @keyframes twinkleStars {
       from {
         opacity: 0.18;
       }
+
       to {
         opacity: 0.42;
       }
     }
+
     @keyframes shootingStar {
       0% {
         opacity: 0;
         transform: translate(0, 0) rotate(-25deg);
       }
+
       8% {
         opacity: 1;
       }
+
       35% {
         opacity: 0;
         transform: translate(350px, 160px) rotate(-25deg);
       }
+
       100% {
         opacity: 0;
         transform: translate(350px, 160px) rotate(-25deg);
       }
     }
+
     @keyframes floatAsteroid {
       from {
         transform: translateY(0) rotate(0deg);
       }
+
       to {
         transform: translateY(-22px) rotate(12deg);
       }
     }
+
     @keyframes pulseOrb {
       from {
         opacity: 0.35;
         transform: scale(1);
       }
+
       to {
         opacity: 0.85;
         transform: scale(1.25);
       }
     }
+
     @media (max-width: 600px) {
       body {
         padding: 20px 12px;
       }
+
       .row {
         grid-template-columns: 50px 1fr 90px;
         padding: 13px;
       }
+
       .moon {
         width: 65px;
         height: 65px;
         top: 55px;
         left: 25px;
       }
+
       .planet {
         width: 210px;
         height: 210px;
         right: -80px;
         bottom: -70px;
       }
+
       .planet::before {
         width: 270px;
         top: 88px;
         left: -35px;
       }
+
+      .dpla-logo {
+        width: 185px;
+        margin-top: 18px;
+      }
+
       .shooting-star.three,
       .asteroid-three {
         display: none;
@@ -457,59 +540,77 @@
     }
   </style>
 </head>
+
 <body>
   <div class="stars"></div>
+
   <div class="shooting-star one"></div>
   <div class="shooting-star two"></div>
   <div class="shooting-star three"></div>
+
   <div class="moon"></div>
   <div class="planet"></div>
+
   <div class="asteroid asteroid-one"></div>
   <div class="asteroid asteroid-two"></div>
   <div class="asteroid asteroid-three"></div>
+
   <div class="gold-orb orb-one"></div>
   <div class="gold-orb orb-two"></div>
   <div class="gold-orb orb-three"></div>
+
   <div class="container">
     <header>
       <h1>DPLA Community Service Leaderboard</h1>
       <p class="subtitle">DEDICATED PURPOSE LEADERSHIP ACADEMY</p>
+      <img src="DPLA_logo_transparent.png" alt="DPLA Logo" class="dpla-logo">
     </header>
+
     <section class="stats">
       <div class="stat-card">
         <h2 id="totalHours">0</h2>
         <p>Total Service Hours</p>
       </div>
+
       <div class="stat-card">
         <h2 id="totalStudents">0</h2>
         <p>Students Participating</p>
       </div>
+
       <div class="stat-card">
         <h2 id="topVolunteer">—</h2>
         <p>Most Dedicated</p>
       </div>
     </section>
+
     <main class="leaderboard">
       <div class="leaderboard-title">
         <h2>🌟 Top Rankings</h2>
         <button class="refresh-button" onclick="loadLeaderboard()">Refresh</button>
       </div>
+
       <div id="leaderboardList" class="loading">Loading leaderboard...</div>
     </main>
+
     <p class="footer-note">
       Update the Google Sheet and refresh this page to update the leaderboard.
     </p>
   </div>
+
   <script>
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPVumJkc_oT4l73Z9LfUMdlIaN_TjfhILZLVGDvi1SlyfdzbKGnLVP9dWeyoBcfKvkrxye4aLcZw2G/pub?output=csv";
+
     async function loadLeaderboard() {
       const leaderboardList = document.getElementById("leaderboardList");
+
       leaderboardList.className = "loading";
       leaderboardList.innerHTML = "Loading leaderboard...";
+
       try {
         const response = await fetch(GOOGLE_SHEET_CSV_URL);
         const csvText = await response.text();
         const data = parseCSV(csvText);
+
         const leaderboard = data
           .map(row => ({
             name: row.Name || row.name || "Unnamed",
@@ -517,39 +618,50 @@
           }))
           .filter(person => person.name && !isNaN(person.hours))
           .sort((a, b) => b.hours - a.hours);
+
         renderLeaderboard(leaderboard);
       } catch (error) {
         leaderboardList.className = "error";
         leaderboardList.innerHTML = `⚠️ ${error.message}`;
       }
     }
+
     function parseCSV(csv) {
       const lines = csv.trim().split("\n");
       const headers = lines[0].split(",").map(header => header.trim());
+
       return lines.slice(1).map(line => {
         const values = line.split(",").map(value => value.trim());
         const row = {};
+
         headers.forEach((header, index) => {
           row[header] = values[index];
         });
+
         return row;
       });
     }
+
     function renderLeaderboard(leaderboard) {
       const leaderboardList = document.getElementById("leaderboardList");
       const totalHours = leaderboard.reduce((sum, person) => sum + person.hours, 0);
+
       document.getElementById("totalHours").textContent = totalHours;
       document.getElementById("totalStudents").textContent = leaderboard.length;
       document.getElementById("topVolunteer").textContent = leaderboard[0]?.name || "—";
+
       if (leaderboard.length === 0) {
         leaderboardList.className = "error";
         leaderboardList.innerHTML = "No leaderboard data found.";
         return;
       }
+
       leaderboardList.className = "";
+
       leaderboardList.innerHTML = leaderboard.map((person, index) => {
         let medal = "";
         let specialClass = "";
+
         if (index === 0) {
           medal = "🥇";
           specialClass = "first";
@@ -562,6 +674,7 @@
         } else {
           medal = `#${index + 1}`;
         }
+
         return `
           <div class="row ${specialClass}">
             <div class="rank">${medal}</div>
@@ -571,6 +684,7 @@
         `;
       }).join("");
     }
+
     loadLeaderboard();
   </script>
 </body>
